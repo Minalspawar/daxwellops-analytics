@@ -50,3 +50,25 @@ To support fast, repeatable BI queries, this project applies optimization at two
 - ![EXPLAIN weekly OTIF](docs/perf_01_explain_analyze_otif_weekly.png)
 - ![EXPLAIN OTIF filtered](docs/perf_02_explain_analyze_otif_filtered.png)
 
+
+---
+
+## Project Visuals (Architecture + Proof)
+
+### Architecture
+![Architecture](docs/doc_01_architecture.png)
+
+### KPI Dashboard (Metabase)
+![KPI Dashboard](docs/mb_02_dashboard_full.png)
+
+### Airflow Quality Gate (dbt_run ? dbt_test)
+![Airflow DAG](docs/airflow_01_dag_graph.png)
+
+### Structured JSON Logs (Reliability / Observability)
+![Structured Logs](docs/airflow_02_structured_logs.png)
+
+### Performance Proof (EXPLAIN ANALYZE)
+![EXPLAIN Weekly OTIF](docs/perf_01_explain_analyze_otif_weekly.png)
+![EXPLAIN Filtered OTIF](docs/perf_02_explain_analyze_otif_filtered.png)
+
+---

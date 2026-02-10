@@ -288,10 +288,8 @@ Recommended tiles:
 * Backorder Rate (Overall)
 * Contract Leakage ($) — Price mismatch only
 
-**[Screenshot Placeholder]<img width="925" height="371" alt="dash_00_full_dashboard" src="https://github.com/user-attachments/assets/290a9ad2-9157-4fea-8687-410742f5e56d" />
+**<img width="925" height="371" alt="dash_00_full_dashboard" src="https://github.com/user-attachments/assets/290a9ad2-9157-4fea-8687-410742f5e56d" />
  Full dashboard**
-
-<img width="925" height="371" alt="dash_00_full_dashboard" src="https://github.com/user-attachments/assets/2b869901-a564-4114-9088-b4c19c4b1832" />
 
 ---
 

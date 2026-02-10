@@ -67,7 +67,7 @@ This project builds a small analytics platform that turns raw operational data i
 4) Airflow orchestrates + blocks bad data via `dbt test`  
 5) Metabase dashboard reads `analytics.fact_*`
 
-**Architecture Diagram**
+
 <img width="572" height="356" alt="image" src="https://github.com/user-attachments/assets/4b403002-d87f-42c2-8d95-a05044c4611d" />
 ---
 

@@ -86,14 +86,14 @@ This project builds a small analytics platform that turns raw operational data i
 - `raw`: ingested tables
 - `analytics`: staging + marts
 
-### Raw tables (`raw.*`)
+### Raw tables (`raw.`)
 - `raw.sales_orders`
 - `raw.shipments` (semi-structured JSON ingested into structured table)
 - `raw.contracts`
 - `raw.inventory_snapshots`
 - `raw.production_batches`
 
-### Analytics models (`analytics.*`)
+### Analytics models (`analytics.`)
 **Staging views**
 - `analytics.stg_sales_orders`
 - `analytics.stg_shipments`
@@ -288,20 +288,10 @@ Recommended tiles:
 * Backorder Rate (Overall)
 * Contract Leakage ($) — Price mismatch only
 
-**[Screenshot Placeholder] Full dashboard**
+**[Screenshot Placeholder]<img width="925" height="371" alt="dash_00_full_dashboard" src="https://github.com/user-attachments/assets/290a9ad2-9157-4fea-8687-410742f5e56d" />
+ Full dashboard**
 
-* Add image: `docs/mb_02_dashboard_full.png`
-
----
-
-## 5–10 Minute Demo Video Flow (Suggested)
-
-1. Problem statement + KPIs (why it matters)
-2. Architecture (raw → dbt → marts → Metabase; Airflow runs + validates)
-3. Show marts tables + definitions (OTIF, contract leakage)
-4. Show dashboard (OTIF trend, fill/backorder, leakage)
-5. Show Airflow DAG run (dbt_run → dbt_test) + JSON logs
-6. Show failure injection + recovery (quality gate proof)
+<img width="925" height="371" alt="dash_00_full_dashboard" src="https://github.com/user-attachments/assets/2b869901-a564-4114-9088-b4c19c4b1832" />
 
 ---
 
@@ -343,32 +333,3 @@ Recommended tiles:
 **Leadership:** one dashboard for weekly reviews and decisions
 
 ---
-
-## Screenshot Checklist (Put into `docs/`)
-
-1. `doc_01_architecture.png`
-2. `run_01_landing_files.png`
-3. `run_02_raw_tables.png`
-4. `run_03_raw_counts.png`
-5. `dbt_01_run_success.png`
-6. `dbt_02_test_pass.png`
-7. `mb_01_connected.png`
-8. `mb_02_dashboard_full.png`
-9. `airflow_01_dag_graph.png`
-10. `airflow_02_structured_logs.png`
-11. `airflow_03_fail_gate.png`
-12. `airflow_04_recovered.png`
-
----
-
-## Contact
-
-Name: <YOUR_NAME>
-LinkedIn: <YOUR_LINKEDIN>
-Email: <YOUR_EMAIL>
-
-```
-
-### Optional: create `README.md` via PowerShell
-If you want to generate the file automatically, tell me and I’ll give you a single PowerShell command that writes this into `README.md` (without you copying manually).
-```

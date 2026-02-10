@@ -244,9 +244,8 @@ docker exec -it daxwell_postgres psql -U daxwell -d daxwell_dw -c "insert into r
 
 Trigger DAG in Airflow → `dbt_test` should fail.
 
-**[Screenshot Placeholder] DAG failed at dbt_test**
+**<img width="944" height="340" alt="airflow_03_quality_gate_failed" src="https://github.com/user-attachments/assets/9f9141fa-62c7-4eac-aca3-d130f7e9544a" /> DAG failed at dbt_test**
 
-* Add image: `docs/airflow_03_fail_gate.png`
 
 ### Fix (delete bad record)
 
@@ -256,9 +255,7 @@ docker exec -it daxwell_postgres psql -U daxwell -d daxwell_dw -c "delete from r
 
 Trigger DAG again → passes.
 
-**[Screenshot Placeholder] DAG recovered**
-
-* Add image: `docs/airflow_04_recovered.png`
+**<img width="949" height="337" alt="airflow_01_quality_gate_success" src="https://github.com/user-attachments/assets/45ab487f-d3cb-4947-bb74-45744e24c027" /> DAG recovered**
 
 ---
 
@@ -288,8 +285,7 @@ Recommended tiles:
 * Backorder Rate (Overall)
 * Contract Leakage ($) — Price mismatch only
 
-**<img width="925" height="371" alt="dash_00_full_dashboard" src="https://github.com/user-attachments/assets/290a9ad2-9157-4fea-8687-410742f5e56d" />
- Full dashboard**
+**<img width="925" height="371" alt="dash_00_full_dashboard" src="https://github.com/user-attachments/assets/290a9ad2-9157-4fea-8687-410742f5e56d" />**
 
 ---
 

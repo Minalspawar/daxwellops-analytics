@@ -1,6 +1,4 @@
 
-
-````markdown
 # DaxwellOps Analytics — Reliable Data Pipeline + KPI Dashboard  
 *(Airflow • dbt • PostgreSQL • Metabase)*
 

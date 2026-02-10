@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: stg_sales_orders
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - unique
+      - name: qty_ordered
+        tests:
+          - not_null
+
+  - name: stg_shipments
+    columns:
+      - name: shipment_id
+        tests:
+          - not_null
+          - unique
+      - name: qty_shipped
+        tests:
+          - not_null

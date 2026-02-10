@@ -1,0 +1,25 @@
+# env / secrets
+.env
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# dbt
+dbt/**/target/
+dbt/**/dbt_packages/
+dbt/**/logs/
+
+# airflow logs
+airflow/logs/
+airflow/__pycache__/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# metabase local files (if any)
+metabase_data/

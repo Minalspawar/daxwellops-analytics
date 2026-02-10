@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: fact_fulfillment
+    config:
+      materialized: table
+
+  - name: fact_contract_violations
+    config:
+      materialized: table

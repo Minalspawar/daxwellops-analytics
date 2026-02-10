@@ -1,0 +1,12 @@
+daxwellops:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: postgres
+      user: daxwell
+      password: daxwellpass
+      port: 5432
+      dbname: daxwell_dw
+      schema: analytics
+      threads: 4

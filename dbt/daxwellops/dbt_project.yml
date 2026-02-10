@@ -1,0 +1,14 @@
+name: "daxwellops"
+version: "1.0.0"
+config-version: 2
+
+profile: "daxwellops"
+
+model-paths: ["models"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+models:
+  +materialized: view
+  marts:
+    +materialized: table

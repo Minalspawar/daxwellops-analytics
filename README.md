@@ -8,6 +8,7 @@ A solo, end-to-end analytics engineering project that simulates a manufacturing 
 This project demonstrates how operational data can be ingested, modeled into governed KPI tables, validated through automated tests, and delivered through a stakeholder-ready dashboard — with reliability enforced by an Airflow quality gate.
 
 **Repository:** [https://github.com/Minalspawar/daxwellops-analytics](https://github.com/Minalspawar/daxwellops-analytics)
+
 **Demo (5–10 min walkthrough):** [https://youtu.be/82sCjMfEk0g](https://youtu.be/82sCjMfEk0g)
 
 ---
@@ -30,13 +31,10 @@ Rather than focusing only on dashboard outputs, this system emphasizes reliabili
 
 Operations and Finance teams require consistent answers to critical service and compliance questions:
 
-Are we shipping orders On Time and In Full (OTIF)?
-
-What percentage of demand are we fulfilling (Fill Rate)?
-
-How frequently are we creating backorders?
-
-Are we losing revenue due to contract price mismatches or MOQ violations?
+- Are we shipping orders On Time and In Full (OTIF)?
+- What percentage of demand are we fulfilling (Fill Rate)?
+- How frequently are we creating backorders?
+- Are we losing revenue due to contract price mismatches or MOQ violations?
 
 This project translates raw operational data into governed KPI marts that answer those questions with validated logic.
 
@@ -121,10 +119,13 @@ Consumes only validated fact tables to present executive KPI dashboards.
 
 Provides standardized service performance metrics including:
 
-OTIF flag
-Shipped vs ordered quantities
-Backorder indicators
-Lead-time calculations
+- OTIF flag
+
+- Shipped vs ordered quantities
+
+- Backorder indicators
+
+- Lead-time calculations
 
 Supports service-level monitoring and supply performance analysis.
 
@@ -134,9 +135,9 @@ Supports service-level monitoring and supply performance analysis.
 
 Identifies compliance risks including:
 
-Contract price mismatches
-Minimum Order Quantity violations
-Estimated revenue impact
+- Contract price mismatches
+- Minimum Order Quantity violations
+- Estimated revenue impact
 
 Supports financial oversight and contract governance.
 
@@ -146,14 +147,14 @@ Supports financial oversight and contract governance.
 
 The Airflow DAG `daxwellops_dbt_quality_gate` enforces validation as a required step.
 
-Execution sequence:
+- Execution sequence:
 
 dbt run → builds staging and fact models
 dbt test → validates integrity and business rules
 
 If tests fail, the pipeline halts and KPIs are not exposed.
 
-Structured JSON logs capture:
+- Structured JSON logs capture:
 
 Command start
 Command result
@@ -167,12 +168,12 @@ This design simulates production-grade governance where reliability is prioritiz
 
 ## Technology Stack
 
-Docker Desktop — reproducible containerized environment
-PostgreSQL — analytical warehouse with raw and analytics schemas
-dbt-postgres — transformation modeling and automated testing
-Apache Airflow — orchestration, retries, observability, quality gate
-Python + Pandas — synthetic data generation and ingestion
-Metabase — stakeholder dashboards
+- Docker Desktop — reproducible containerized environment
+- PostgreSQL — analytical warehouse with raw and analytics schemas
+- dbt-postgres — transformation modeling and automated testing
+- Apache Airflow — orchestration, retries, observability, quality gate
+- Python + Pandas — synthetic data generation and ingestion
+- Metabase — stakeholder dashboards
 
 ---
 

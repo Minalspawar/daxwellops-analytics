@@ -65,12 +65,12 @@ It reads directly from validated tables in the analytics schema and provides int
 
 # Trend Analysis
 
-## Weekly OTIF Trend
+### Weekly OTIF Trend
 Visualizes performance over time, enabling detection of service degradation or improvement.
 
 This supports weekly operations reviews and monthly performance reporting.
 
-## Interactivity & Filtering
+### Interactivity & Filtering
 
 The dashboard includes a global date filter, allowing stakeholders to dynamically adjust reporting periods. All KPI cards and trend charts update automatically based on the selected timeframe.
 This mirrors how real operational dashboards are used in executive review meetings.
@@ -134,7 +134,6 @@ Supports service-level monitoring and supply performance analysis.
 ### analytics.fact_contract_violations
 
 Identifies compliance risks including:
-
 - Contract price mismatches
 - Minimum Order Quantity violations
 - Estimated revenue impact
@@ -148,17 +147,17 @@ Supports financial oversight and contract governance.
 The Airflow DAG `daxwellops_dbt_quality_gate` enforces validation as a required step.
 
 - Execution sequence:
-
 dbt run → builds staging and fact models
+
 dbt test → validates integrity and business rules
 
 If tests fail, the pipeline halts and KPIs are not exposed.
 
 - Structured JSON logs capture:
 
-Command start
-Command result
-Runtime duration
+- Command start
+- Command result
+- Runtime duration
 
 A failure injection and recovery scenario is included to demonstrate real-world robustness.
 
@@ -181,11 +180,11 @@ This design simulates production-grade governance where reliability is prioritiz
 
 The synthetic dataset mirrors a manufacturing/wholesale workflow and includes:
 
-sales_orders.csv — order placement and promised shipment data
-shipments.json — semi-structured shipment events
-contracts.csv — contract pricing and MOQ constraints
-inventory_snapshots.csv — inventory position
-production_batches.csv — production output
+- sales_orders.csv — order placement and promised shipment data
+- shipments.json — semi-structured shipment events
+- contracts.csv — contract pricing and MOQ constraints
+- inventory_snapshots.csv — inventory position
+- production_batches.csv — production output
 
 Landing directory: `data/landing/`
 Warehouse schema: `raw.*` → transformed into `analytics.*`
@@ -198,13 +197,13 @@ The dataset intentionally includes cross-domain dependencies to simulate realist
 
 Two optimization patterns are demonstrated:
 
-Precomputed KPI marts
+- Precomputed KPI marts
 Metabase reads from analytics.fact_* tables to avoid repeated multi-table joins.
 
-Indexes on filter and join columns
+- Indexes on filter and join columns
 Indexes are added for commonly queried fields such as order_date, customer_id, and issue_type.
 
-Sample EXPLAIN ANALYZE results:
+- Sample EXPLAIN ANALYZE results:
 
 Weekly OTIF: ~2.936 ms
 Filtered OTIF (last 60 days): ~2.297 ms

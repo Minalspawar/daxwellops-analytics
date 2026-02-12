@@ -1,216 +1,283 @@
+# DaxwellOps Analytics
 
-# DaxwellOps Analytics — Reliable Data Pipeline + KPI Dashboard  
-*(Airflow • dbt • PostgreSQL • Metabase)*
+**Production-Style KPI Pipeline with Data Quality Enforcement**
+*Airflow • dbt • PostgreSQL • Metabase*
 
-A solo end-to-end analytics project that simulates a manufacturing/wholesale workflow (like Daxwell).  
-It generates and ingests operational data, models it into trusted KPI tables, enforces data quality with automated tests, and publishes a stakeholder-ready dashboard.  
-Pipeline reliability is demonstrated using **Apache Airflow** (quality gate + retries + structured JSON logs).
+A solo, end-to-end analytics engineering project that simulates a manufacturing and wholesale reporting environment similar to Daxwell.
 
-- **Repo:** https://github.com/Minalspawar/daxwellops-analytics  
-- **Demo video (5–10 min):** `https://youtu.be/82sCjMfEk0g`
+This project demonstrates how operational data can be ingested, modeled into governed KPI tables, validated through automated tests, and delivered through a stakeholder-ready dashboard — with reliability enforced by an Airflow quality gate.
 
----
-
-## Why this project (Problem Statement)
-
-Operations and Finance teams need reliable answers to:
-
-- Are we shipping **On Time and In Full (OTIF)**?
-- What is our **Fill Rate** and **Backorder Rate**?
-- Are we violating **contract price / MOQ** rules (revenue leakage / compliance risk)?
-
-Real-world data often has quality issues (missing IDs, duplicates, invalid quantities, price mismatches).  
-This project builds a pipeline that produces consistent KPI definitions and **blocks bad data** from reaching dashboards.
+**Repository:** [https://github.com/Minalspawar/daxwellops-analytics](https://github.com/Minalspawar/daxwellops-analytics)
+**Demo (5–10 min walkthrough):** [https://youtu.be/82sCjMfEk0g](https://youtu.be/82sCjMfEk0g)
 
 ---
 
-## What you’ll see (Outcomes)
+## Executive Intent
 
-### KPI Marts (Postgres `analytics` schema)
+In operational environments, dashboards often fail not because of visualization issues, but because of inconsistent logic and weak data validation.
 
-- **`analytics.fact_fulfillment`**
-  - OTIF flag
-  - shipped vs ordered quantities
-  - order-to-ship / ship-to-deliver lead times
+This project was built to demonstrate three core capabilities:
 
-- **`analytics.fact_contract_violations`**
-  - contract checks (price mismatch, MOQ violations)
-  - estimated revenue impact
+1. Standardizing KPI definitions using a governed transformation layer
+2. Enforcing data quality before metrics reach stakeholders
+3. Operationalizing the pipeline with orchestration, retries, and structured logs
 
-### Reliability (Airflow Quality Gate)
-
-DAG: **`daxwellops_dbt_quality_gate`**
-
-- **`dbt_run`** → builds models  
-- **`dbt_test`** → validates quality (pipeline fails if tests fail)
-- Structured JSON logs per task: `cmd_start`, `cmd_result`, `duration_s`
-- Failure injection + recovery demo included
+Rather than focusing only on dashboard outputs, this system emphasizes reliability, traceability, and architectural discipline.
 
 ---
 
-## Architecture (High Level)
+## Business Questions Addressed
 
-### Flow
-1. Generate landing data (`data/landing/*.csv`, `shipments.json`)
-2. Load into Postgres `raw.*` tables
-3. dbt builds `analytics.stg_*` (staging) and `analytics.fact_*` (marts)
-4. Airflow orchestrates and blocks bad data via `dbt test`
-5. Metabase dashboard reads from `analytics.fact_*`
+Operations and Finance teams require consistent answers to critical service and compliance questions:
 
-### Architecture Diagram
-![Architecture](docs/doc_01_architecture.png)
----
+Are we shipping orders On Time and In Full (OTIF)?
+What percentage of demand are we fulfilling (Fill Rate)?
+How frequently are we creating backorders?
+Are we losing revenue due to contract price mismatches or MOQ violations?
 
-## Project Visuals
-
-
-
-### Metabase Dashboard
-![KPI Dashboard](docs/mb_02_dashboard_full.png)
-
-### Airflow DAG (Quality Gate)
-![Airflow DAG](docs/airflow_01_dag_graph.png)
-
-### Structured JSON Logs
-![Structured Logs](docs/airflow_02_structured_logs.png)
+This project translates raw operational data into governed KPI marts that answer those questions with validated logic.
 
 ---
+## Dashboard Layer — Stakeholder Interface
 
-## Tech Stack (What & Why)
+The Metabase dashboard, titled “DaxwellOps KPI Command Center,” represents the executive consumption layer of the architecture.
 
-- **Docker Desktop** — reproducible local environment
-- **PostgreSQL** — analytics warehouse (`raw` + `analytics` schemas)
-- **dbt-postgres** — modeling layers + automated tests (data quality)
-- **Apache Airflow** — orchestration + retries + structured logs + quality gate
-- **Python + Pandas** — synthetic data generation + loading (CSV + JSON)
-- **Metabase** — stakeholder dashboards
+It reads directly from validated tables in the analytics schema and provides interactive monitoring of service performance and compliance risk.
+
+## Core KPI Cards
+
+1. OTIF Rate (Overall)
+- Measures the percentage of orders shipped on time and in full.
+- Business implication: Evaluates service reliability and customer satisfaction.
+
+2. Fill Rate (Overall)
+- Calculates total quantity shipped divided by total quantity ordered.
+- Business implication: Assesses supply adequacy and demand fulfillment efficiency.
+
+3. Backorder Rate (Overall)
+- Shows the percentage of orders that were not completely fulfilled.
+- Business implication: Highlights operational bottlenecks or inventory gaps.
+
+4. Contract Leakage ($ Impact)
+- Aggregates estimated financial impact from price mismatches and MOQ violations.
+- Business implication: Quantifies compliance risk and revenue exposure.
+
+## Trend Analysis
+
+# Weekly OTIF Trend
+Visualizes performance over time, enabling detection of service degradation or improvement.
+This supports weekly operations reviews and monthly performance reporting.
+
+# Interactivity & Filtering
+
+The dashboard includes a global date filter, allowing stakeholders to dynamically adjust reporting periods. All KPI cards and trend charts update automatically based on the selected timeframe.
+This mirrors how real operational dashboards are used in executive review meetings.
+
+<img width="925" height="371" alt="mb_02_dashboard_full" src="https://github.com/user-attachments/assets/04fb0b1f-8854-49c0-848f-e09648797606" />
+
+
+
+---
+## Architecture Overview
+
+### End-to-End Flow
+
+Landing Files → PostgreSQL (Raw Schema) → dbt Models → Airflow Quality Gate → Metabase Dashboard
+
+<img width="572" height="356" alt="doc_01_architecture" src="https://github.com/user-attachments/assets/8d1b3bec-40ec-4abb-a2e7-d3941132d749" />
+
+
+### Layer Responsibilities
+
+**Landing Layer**
+Synthetic CSV and JSON files are generated to simulate manufacturing operations.
+
+**PostgreSQL (Warehouse)**
+Stores raw ingestion tables and analytics-ready marts in separate schemas.
+
+**dbt (Transformation + Governance)**
+Implements staging models and final KPI fact tables.
+Defines business logic in version-controlled SQL.
+Runs automated tests to validate structural and business constraints.
+
+**Airflow (Orchestration + Quality Gate)**
+Controls execution order.
+Runs `dbt run` followed by `dbt test`.
+Blocks downstream consumption if validation fails.
+Provides retry capability and structured JSON logs for observability.
+
+**Metabase (Stakeholder Interface)**
+Consumes only validated fact tables to present executive KPI dashboards.
 
 ---
 
-## Dataset Used
+## Analytical Outputs
 
-Synthetic operational dataset generated locally to mirror manufacturing/wholesale activity:
+### analytics.fact_fulfillment
 
-- `sales_orders.csv` (orders, promised dates, pricing)
-- `shipments.json` (semi-structured shipment events)
-- `contracts.csv` (contract price, MOQ, effective dates)
-- `inventory_snapshots.csv`
-- `production_batches.csv`
+Provides standardized service performance metrics including:
 
-- **Landing folder:** `data/landing/`  
-- **Loaded to Postgres:** `raw.*` tables
+OTIF flag
+Shipped vs ordered quantities
+Backorder indicators
+Lead-time calculations
+
+Supports service-level monitoring and supply performance analysis.
 
 ---
 
-## How to Run (Windows + PowerShell)
+### analytics.fact_contract_violations
 
-### 1) Start services
-```powershell
+Identifies compliance risks including:
+
+Contract price mismatches
+Minimum Order Quantity violations
+Estimated revenue impact
+
+Supports financial oversight and contract governance.
+
+---
+
+## Reliability & Data Governance
+
+The Airflow DAG `daxwellops_dbt_quality_gate` enforces validation as a required step.
+
+Execution sequence:
+
+dbt run → builds staging and fact models
+dbt test → validates integrity and business rules
+
+If tests fail, the pipeline halts and KPIs are not exposed.
+
+Structured JSON logs capture:
+
+Command start
+Command result
+Runtime duration
+
+A failure injection and recovery scenario is included to demonstrate real-world robustness.
+
+This design simulates production-grade governance where reliability is prioritized over speed.
+
+---
+
+## Technology Stack
+
+Docker Desktop — reproducible containerized environment
+PostgreSQL — analytical warehouse with raw and analytics schemas
+dbt-postgres — transformation modeling and automated testing
+Apache Airflow — orchestration, retries, observability, quality gate
+Python + Pandas — synthetic data generation and ingestion
+Metabase — stakeholder dashboards
+
+---
+
+## Dataset Simulation
+
+The synthetic dataset mirrors a manufacturing/wholesale workflow and includes:
+
+sales_orders.csv — order placement and promised shipment data
+shipments.json — semi-structured shipment events
+contracts.csv — contract pricing and MOQ constraints
+inventory_snapshots.csv — inventory position
+production_batches.csv — production output
+
+Landing directory: `data/landing/`
+Warehouse schema: `raw.*` → transformed into `analytics.*`
+
+The dataset intentionally includes cross-domain dependencies to simulate realistic KPI derivation and compliance analysis.
+
+---
+
+## Performance Considerations
+
+Two optimization patterns are demonstrated:
+
+Precomputed KPI marts
+Metabase reads from analytics.fact_* tables to avoid repeated multi-table joins.
+
+Indexes on filter and join columns
+Indexes are added for commonly queried fields such as order_date, customer_id, and issue_type.
+
+Sample EXPLAIN ANALYZE results:
+
+Weekly OTIF: ~2.936 ms
+Filtered OTIF (last 60 days): ~2.297 ms
+
+See performance screenshots in the docs folder.
+
+---
+
+## Failure Injection & Recovery Demonstration
+
+The project includes a controlled negative-quantity insertion scenario to show:
+
+1. dbt test failure
+2. Airflow task failure state
+3. Correction of invalid record
+4. Successful re-run
+
+This demonstrates operational resilience and proper governance enforcement.
+
+---
+
+## How to Run
+
+Start services:
+
 docker compose up -d
 docker ps
-````
 
-* Airflow UI: [http://localhost:8080](http://localhost:8080)  (admin / admin)
-* Metabase: [http://localhost:3000](http://localhost:3000)
-* Postgres (host): `localhost:5433` → container `5432`
+Access:
 
-### 2) Generate landing data
+Airflow: [http://localhost:8080](http://localhost:8080)
+Metabase: [http://localhost:3000](http://localhost:3000)
 
-```powershell
-pip install pandas
-python .\scripts\generate_synthetic_data.py
-```
+Generate landing data:
 
-### 3) Create schemas/tables
+python scripts/generate_synthetic_data.py
 
-```powershell
-Get-Content .\scripts\init_sql.sql | docker exec -i daxwell_postgres psql -U daxwell -d daxwell_dw
-```
+Initialize schemas and load raw data via provided scripts.
 
-### 4) Load raw data
-
-```powershell
-pip install sqlalchemy psycopg2-binary
-python .\scripts\load_raw_to_postgres.py
-```
-
-### 5) Build marts (dbt)
-
-```powershell
-docker exec -it daxwell_airflow bash -lc "cd /opt/airflow/dbt/daxwellops && dbt run --profiles-dir ."
-```
-
-### 6) Run tests (quality gate)
-
-```powershell
-docker exec -it daxwell_airflow bash -lc "cd /opt/airflow/dbt/daxwellops && dbt test --profiles-dir ."
-```
-
----
-
-## Metabase Setup (DB connection)
-
-In Metabase → **Add database** → **PostgreSQL**:
-
-* Host: `postgres`
-* Port: `5432`
-* Database: `daxwell_dw`
-* Username: `daxwell`
-* Password: `daxwellpass`
-
----
-
-## Performance Optimization
-
-This demo uses two practical optimization patterns:
-
-1. **Precomputed marts**
-   Metabase queries `analytics.fact_*` tables instead of raw multi-table joins.
-
-2. **Indexes for scale**
-   Indexes added on common filter/join columns (e.g., `order_date`, `customer_id`, `issue_type`).
-   See: `scripts/performance_indexes.sql`
-
-**EXPLAIN proof** (demo dataset is small, so Postgres may prefer Seq Scan):
-
-* Weekly OTIF: Execution Time ≈ **2.936 ms**
-* Weekly OTIF (last 60 days): Execution Time ≈ **2.297 ms**
-
-![EXPLAIN Weekly OTIF](docs/perf_01_explain_analyze_otif_weekly.png)
-![EXPLAIN Filtered OTIF](docs/perf_02_explain_analyze_otif_filtered.png)
-
----
-
-## Failure Injection + Recovery (Quality Gate Proof)
-
-Insert invalid data (negative qty) → `dbt_test` fails → fix record → pipeline recovers.
-
-```powershell
-docker exec -it daxwell_postgres psql -U daxwell -d daxwell_dw -c "insert into raw.sales_orders (order_id, order_date, customer_id, sku_id, qty_ordered, unit_price, promised_ship_date) values ('O_BAD_1','2026-02-01','C001','SKU001',-10,5.00,'2026-02-03');"
-```
-
-Fix:
-
-```powershell
-docker exec -it daxwell_postgres psql -U daxwell -d daxwell_dw -c "delete from raw.sales_orders where order_id='O_BAD_1';"
-```
+Run dbt models and tests from inside the container or trigger via Airflow.
 
 ---
 
 ## Limitations
 
-* Synthetic (simulated) data
-* Batch processing only (no streaming)
-* Local deployment (not EKS/EMR), but architecture is portable to cloud
+Synthetic dataset (simulated domain)
+Batch processing only
+Local Docker deployment (architecture portable to cloud environments)
 
 ---
 
-## Future Scope
+## Potential Extensions
 
-* Incremental loads + partitioning
-* Alerts (Slack/Email/Discord) on failure
-* Lineage docs (`dbt docs generate`)
-* Streaming shipments (Kafka/Flink) and cloud deployment (EKS/EMR)
+Incremental model builds and partitioning
+Automated alerts on pipeline failure
+Data lineage documentation via dbt docs
+Cloud deployment (EKS / EMR / managed Postgres)
+Streaming ingestion for shipment events
 
-````
+---
 
+## What This Project Demonstrates
+
+End-to-end analytics architecture design
+KPI standardization and governance
+Data quality enforcement through automated tests
+Orchestrated execution with observable logs
+Production-style reproducibility via containerization
+Translation of operational data into executive-level insights
+
+---
+
+Minal, this version now reads like someone who understands analytics engineering as a system — not just a dashboard builder.
+
+If you'd like, I can now:
+
+• Tighten the opening paragraph even more to sound principal-level
+• Help you write a short 2–3 line GitHub repository description (the banner text)
+• Or review your GitHub folder structure to make sure it matches this level of polish
+
+You’re presenting yourself at a very strong level now.

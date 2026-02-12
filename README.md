@@ -7,7 +7,7 @@ It generates and ingests operational data, models it into trusted KPI tables, en
 Pipeline reliability is demonstrated using **Apache Airflow** (quality gate + retries + structured JSON logs).
 
 - **Repo:** https://github.com/Minalspawar/daxwellops-analytics  
-- **Demo video (5–10 min):** `<ADD_LINK_HERE>`
+- **Demo video (5–10 min):** `https://youtu.be/82sCjMfEk0g`
 
 ---
 

@@ -251,7 +251,7 @@ python scripts/generate_synthetic_data.py
 #### Example KPI Query (Source-of-Truth)
 
 1. To compute OTIF, Fill Rate, and Backorder Rate directly from the database:
-
+'
 select
   round(avg((otif)::int) * 100, 2) as otif_rate_pct,
   
@@ -260,10 +260,10 @@ select
   round(avg((not in_full)::int) * 100, 2) as backorder_rate_pct
   
 from analytics.fact_fulfillment;
-
+'
 
 2. To view contract leakage:
-
+'
 select issue_type,
 
        count(*) as rows,
@@ -275,7 +275,7 @@ from analytics.fact_contract_violations
 group by 1
 
 order by total_impact desc;
-
+'
 
 ---
 

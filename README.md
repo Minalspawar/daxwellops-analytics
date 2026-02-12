@@ -203,7 +203,7 @@ Metabase reads from analytics.fact_* tables to avoid repeated multi-table joins.
 - Indexes on filter and join columns
 Indexes are added for commonly queried fields such as order_date, customer_id, and issue_type.
 
-- Sample EXPLAIN ANALYZE results:
+#### Sample EXPLAIN ANALYZE results:
 
 Weekly OTIF: ~2.936 ms
 Filtered OTIF (last 60 days): ~2.297 ms
@@ -227,25 +227,25 @@ This demonstrates operational resilience and proper governance enforcement.
 
 ## How to Run
 
-Start services:
+- Start services:
 
 docker compose up -d
 docker ps
 
-Access:
+- Access:
 
 Airflow: [http://localhost:8080](http://localhost:8080)
 Metabase: [http://localhost:3000](http://localhost:3000)
 
-Generate landing data:
+- Generate landing data:
 
 python scripts/generate_synthetic_data.py
 
-Initialize schemas and load raw data via provided scripts.
+- Initialize schemas and load raw data via provided scripts.
 
-Run dbt models and tests from inside the container or trigger via Airflow.
+- Run dbt models and tests from inside the container or trigger via Airflow.
 
-Example KPI Query (Source-of-Truth)
+#### Example KPI Query (Source-of-Truth)
 
 1. To compute OTIF, Fill Rate, and Backorder Rate directly from the database:
 
@@ -270,39 +270,29 @@ order by total_impact desc;
 
 ## Limitations
 
-Synthetic dataset (simulated domain)
-Batch processing only
-Local Docker deployment (architecture portable to cloud environments)
+- Synthetic dataset (simulated domain)
+- Batch processing only
+- Local Docker deployment (architecture portable to cloud environments)
 
 ---
 
 ## Potential Extensions
 
-Incremental model builds and partitioning
-Automated alerts on pipeline failure
-Data lineage documentation via dbt docs
-Cloud deployment (EKS / EMR / managed Postgres)
-Streaming ingestion for shipment events
+- Incremental model builds and partitioningAutomated alerts on pipeline failure
+- Data lineage documentation via dbt docs
+- Cloud deployment (EKS / EMR / managed Postgres)
+- Streaming ingestion for shipment events
 
 ---
 
 ## What This Project Demonstrates
 
-End-to-end analytics architecture design
-KPI standardization and governance
-Data quality enforcement through automated tests
-Orchestrated execution with observable logs
-Production-style reproducibility via containerization
-Translation of operational data into executive-level insights
+- End-to-end analytics architecture design
+- KPI standardization and governance
+- Data quality enforcement through automated tests
+- Orchestrated execution with observable logs
+- Production-style reproducibility via containerization
+- Translation of operational data into executive-level insights
 
 ---
 
-Minal, this version now reads like someone who understands analytics engineering as a system — not just a dashboard builder.
-
-If you'd like, I can now:
-
-• Tighten the opening paragraph even more to sound principal-level
-• Help you write a short 2–3 line GitHub repository description (the banner text)
-• Or review your GitHub folder structure to make sure it matches this level of polish
-
-You’re presenting yourself at a very strong level now.

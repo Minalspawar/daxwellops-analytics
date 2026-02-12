@@ -63,14 +63,14 @@ It reads directly from validated tables in the analytics schema and provides int
 - Aggregates estimated financial impact from price mismatches and MOQ violations.
 - Business implication: Quantifies compliance risk and revenue exposure.
 
-## Trend Analysis
+# Trend Analysis
 
-# Weekly OTIF Trend
+## Weekly OTIF Trend
 Visualizes performance over time, enabling detection of service degradation or improvement.
 
 This supports weekly operations reviews and monthly performance reporting.
 
-# Interactivity & Filtering
+## Interactivity & Filtering
 
 The dashboard includes a global date filter, allowing stakeholders to dynamically adjust reporting periods. All KPI cards and trend charts update automatically based on the selected timeframe.
 This mirrors how real operational dashboards are used in executive review meetings.

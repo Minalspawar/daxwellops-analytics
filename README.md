@@ -31,8 +31,11 @@ Rather than focusing only on dashboard outputs, this system emphasizes reliabili
 Operations and Finance teams require consistent answers to critical service and compliance questions:
 
 Are we shipping orders On Time and In Full (OTIF)?
+
 What percentage of demand are we fulfilling (Fill Rate)?
+
 How frequently are we creating backorders?
+
 Are we losing revenue due to contract price mismatches or MOQ violations?
 
 This project translates raw operational data into governed KPI marts that answer those questions with validated logic.
@@ -66,6 +69,7 @@ It reads directly from validated tables in the analytics schema and provides int
 
 # Weekly OTIF Trend
 Visualizes performance over time, enabling detection of service degradation or improvement.
+
 This supports weekly operations reviews and monthly performance reporting.
 
 # Interactivity & Filtering
@@ -240,6 +244,27 @@ python scripts/generate_synthetic_data.py
 Initialize schemas and load raw data via provided scripts.
 
 Run dbt models and tests from inside the container or trigger via Airflow.
+
+Example KPI Query (Source-of-Truth)
+
+1. To compute OTIF, Fill Rate, and Backorder Rate directly from the database:
+
+select
+  round(avg((otif)::int) * 100, 2) as otif_rate_pct,
+  round((sum(qty_shipped_total)::numeric / nullif(sum(qty_ordered), 0)) * 100, 2) as fill_rate_pct,
+  round(avg((not in_full)::int) * 100, 2) as backorder_rate_pct
+from analytics.fact_fulfillment;
+
+
+2. To view contract leakage:
+
+select issue_type,
+       count(*) as rows,
+       round(sum(est_revenue_impact)::numeric, 2) as total_impact
+from analytics.fact_contract_violations
+group by 1
+order by total_impact desc;
+
 
 ---
 

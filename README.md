@@ -254,18 +254,26 @@ python scripts/generate_synthetic_data.py
 
 select
   round(avg((otif)::int) * 100, 2) as otif_rate_pct,
+  
   round((sum(qty_shipped_total)::numeric / nullif(sum(qty_ordered), 0)) * 100, 2) as fill_rate_pct,
+  
   round(avg((not in_full)::int) * 100, 2) as backorder_rate_pct
+  
 from analytics.fact_fulfillment;
 
 
 2. To view contract leakage:
 
 select issue_type,
+
        count(*) as rows,
+       
        round(sum(est_revenue_impact)::numeric, 2) as total_impact
+       
 from analytics.fact_contract_violations
+
 group by 1
+
 order by total_impact desc;
 
 

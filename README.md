@@ -147,17 +147,17 @@ Supports financial oversight and contract governance.
 The Airflow DAG `daxwellops_dbt_quality_gate` enforces validation as a required step.
 
 - Execution sequence:
-dbt run → builds staging and fact models
 
-dbt test → validates integrity and business rules
+1. dbt run → builds staging and fact models
+2. dbt test → validates integrity and business rules
 
 If tests fail, the pipeline halts and KPIs are not exposed.
 
 - Structured JSON logs capture:
 
-- Command start
-- Command result
-- Runtime duration
+* Command start
+* Command result
+* Runtime duration
 
 A failure injection and recovery scenario is included to demonstrate real-world robustness.
 
@@ -187,6 +187,7 @@ The synthetic dataset mirrors a manufacturing/wholesale workflow and includes:
 - production_batches.csv — production output
 
 Landing directory: `data/landing/`
+
 Warehouse schema: `raw.*` → transformed into `analytics.*`
 
 The dataset intentionally includes cross-domain dependencies to simulate realistic KPI derivation and compliance analysis.
@@ -196,16 +197,18 @@ The dataset intentionally includes cross-domain dependencies to simulate realist
 ## Performance Considerations
 
 Two optimization patterns are demonstrated:
+1. Precomputed KPI marts
 
-- Precomputed KPI marts
 Metabase reads from analytics.fact_* tables to avoid repeated multi-table joins.
 
-- Indexes on filter and join columns
+2. Indexes on filter and join columns
+   
 Indexes are added for commonly queried fields such as order_date, customer_id, and issue_type.
 
 #### Sample EXPLAIN ANALYZE results:
 
 Weekly OTIF: ~2.936 ms
+
 Filtered OTIF (last 60 days): ~2.297 ms
 
 See performance screenshots in the docs folder.
